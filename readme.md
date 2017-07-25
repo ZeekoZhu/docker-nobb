@@ -27,3 +27,9 @@ docker build -t mynodebb .
 ```
 docker run --name mybb -d -p 2333:2333 --link bbmongo --env-file ./nodebb.env mynodebb
 ```
+
+## Store config.json on host
+
+```
+docker run --name mybb -d -p 2333:2333 -v /path/to/conf:/root/conf --link bbmongo --env-file ./nodebb.env mynodebb
+```

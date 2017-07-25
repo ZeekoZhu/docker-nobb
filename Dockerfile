@@ -22,6 +22,8 @@ ENV NB_ADMIN_USERNAME ""
 ENV NB_ADMIN_EMAIL ""
 ENV NB_ADMIN_PASSWORD ""
 
+VOLUME /root/conf
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk update && apk --update add openssl tar
 
@@ -34,5 +36,6 @@ WORKDIR /root/nodebb
 RUN npm config set registry https://registry.npm.taobao.org
 RUN yarn install --production
 COPY setup.sh setup.sh
+RUN chmod +x setup.sh
 
 CMD ./setup.sh && ./nodebb slog

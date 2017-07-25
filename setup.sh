@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f "nodebb.installed" ]; then
+if [ ! -f nodebb.installed ]; then
     echo {\
         \"url\": \"$NB_URL\",\
         \"port\": \"$NB_PORT\",\
@@ -21,8 +21,12 @@ if [ ! -f "nodebb.installed" ]; then
         \"admin:password:confirm\": \"$NB_ADMIN_PASSWORD\"\
         } > setup.json
     ADMINCONF=`cat setup.json`
-    echo "Setiing up nodebb..."
-    node app.js --setup="$ADMINCONF"
-    echo "Setup complete!"
-    touch nodebb.installed
+    node app.js --setup="$ADMINCONF" && \
+    cp config.json /root/conf/config.json
+    if [ $? -eq 0 ]; then
+        echo "Setup complete!" > nodebb.installed
+    else
+        echo "Setup failed"
+    fi
 fi
+cp /root/conf/config.json config.json
